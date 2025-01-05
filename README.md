@@ -1,50 +1,116 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Vite + React Todo App
 
-Currently, two official plugins are available:
+This is a simple Todo app built with [React](https://reactjs.org/) and [Vite](https://vitejs.dev/). It allows you to add, remove, and toggle tasks. The app can be run locally or inside a Docker container for easier setup and deployment.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- Add tasks to the todo list
+- Mark tasks as completed
+- Remove tasks from the list
+- Built with React and Vite for fast development
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Before you can run the project, ensure you have the following installed:
 
-- Configure the top-level `parserOptions` property like this:
+- [Node.js](https://nodejs.org/) (version 14 or higher)
+- [npm](https://www.npmjs.com/)
+- [Docker](https://www.docker.com/) (if running inside a container)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Running the Project Locally
+
+To run the project on your local machine:
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/vite-react-todo-app.git
+cd vite-react-todo-app
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. Install dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Run the following command to install the necessary dependencies:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+### 3. Run the development server
+
+After the dependencies are installed, you can start the development server with:
+
+```bash
+npm run dev
+```
+
+This will start the Vite development server, and you can open the app in your browser at `http://localhost:5173`.
+
+## Running the Project in Docker
+
+If you prefer running the project inside a Docker container, follow the steps below.
+
+### 1. Build the Docker image
+
+In the project directory, build the Docker image:
+
+```bash
+docker build -t vite-react-todo-app .
+```
+
+### 2. Run the Docker container
+
+After building the image, run the container with:
+
+```bash
+docker run -p 5173:5173 vite-react-todo-app
+```
+
+This will expose the app at `http://localhost:5173` in your browser.
+
+## Running with Docker Compose (for Development)
+
+For a smoother development experience, you can use Docker Compose to manage the container. This setup automatically syncs your files and runs the development server inside the container.
+
+### 1. Create the `docker-compose.yml`
+
+Add the following `docker-compose.yml` file to your project directory:
+
+```yaml
+version: "3"
+services:
+  app:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "5173:5173"
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+```
+
+### 2. Start the container with Docker Compose
+
+Run the following command to start the development environment:
+
+```bash
+docker-compose up
+```
+
+This will automatically run `npm run dev` inside the container, and you can access the app at `http://localhost:5173`.
+
+## Building for Production
+
+If you want to build the app for production, you can do so by running:
+
+```bash
+npm run build
+```
+
+This will create a `dist/` folder containing the production-ready build. You can then serve it with any static server, or in the case of Docker, you can run it with `npm run preview` inside the container.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
